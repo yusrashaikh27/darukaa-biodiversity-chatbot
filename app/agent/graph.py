@@ -182,9 +182,11 @@ def _retrieve(state: GraphState) -> GraphState:
     chunks = retrieve_chunks(state["user_input"], k=5)
     # Cap chunk length so a single call can't blow the reasoning node's
     # token budget, regardless of which model is behind it.
+    # NOTE: retrieve_chunks() returns dicts keyed "content", not "text" —
+    # fixed below (previously this check silently never fired).
     for chunk in chunks:
-        if isinstance(chunk, dict) and "text" in chunk and len(chunk["text"]) > 500:
-            chunk["text"] = chunk["text"][:500] + "..."
+        if isinstance(chunk, dict) and "content" in chunk and len(chunk["content"]) > 500:
+            chunk["content"] = chunk["content"][:500] + "..."
 
     evidence = retrieve_structured_evidence(
         metrics_of_interest=metrics_hint,
@@ -239,9 +241,23 @@ def _reason(state: GraphState) -> GraphState:
 
     parsed = AgentResponse.model_validate(parsed_dict)
 
+    # Deterministically attach evidence sources rather than trusting a
+    # small model to reliably cite them in its JSON output — mirrors the
+    # extraction-node fallback pattern used elsewhere in this graph.
+    # Only fills in sources the model didn't already provide, so a model
+    # that *does* cite correctly isn't overridden.
+    if not parsed.sources:
+        parsed.sources = [
+            {"type": "structured", "id": e["id"], "ref": e["source_id"]}
+            for e in state["structured_evidence"][:2]
+        ] + [
+            {"type": "retrieved", "id": c["id"], "ref": c["source_id"]}
+            for c in state["retrieved_chunks"][:2]
+        ]
+
     if known.count_known() < settings.min_known_variables and not parsed.clarifying_question:
         missing = [k for k, v in known.model_dump().items() if not v]
-        parsed.clarifying_question = f"Could you share more about: {', '.join(missing)}?"
+        parsed.clarifying_question = f"Could you share more about: {','.join(missing)}?"
         parsed.confidence = "low"
 
     state["response"] = parsed.model_dump()
