@@ -1,0 +1,9 @@
+metric,intervention,expected_improvement_range,mechanism,region_context,source_id
+soil_organic_carbon,legume-based cover cropping,+15-25% over 2-3 years,Nitrogen-fixing legumes increase root biomass and microbial activity feeding soil organic matter accumulation,semi-arid,FAO-2021-SOC
+soil_organic_carbon,agroforestry intercropping,+10-20% over 3-5 years,Tree litter and deeper root systems add organic matter and reduce erosion-driven carbon loss,semi-arid,FAO-2018-AGROFORESTRY
+species_richness,agroforestry intercropping,+20-40% pollinator species over 3 years,Structural habitat diversity from tree canopy layers supports more pollinator and bird niches than monoculture,semi-arid,IPBES-2019-POLLINATORS
+water_retention,mulching with crop residue,+15-30% soil moisture retention,Surface mulch reduces evaporation and increases infiltration during low-rainfall periods,semi-arid,FAO-2016-CONSERVATION-AG
+habitat_fragmentation,hedgerow planting between plots,-25-35% edge effect on adjacent monoculture,Continuous vegetative corridors reconnect fragmented habitat patches enabling species movement,general,IPCC-AR6-WG2-2022
+pollinator_visitation,wildflower field margins,+30-50% visitation rate over 2 seasons,Floral resource strips provide forage continuity across the growing season for native pollinators,general,FAO-2020-POLLINATOR-SERVICES
+microbial_diversity,reduced tillage,+10-15% microbial biomass over 2 years,Minimizing soil disturbance preserves fungal hyphal networks and microbial habitat structure,general,FAO-2017-CONSERVATION-AG
+groundwater_recharge,contour bunding,+20-30% infiltration on sloped land,Contour barriers slow surface runoff velocity increasing time for water to infiltrate,semi-arid,IPCC-AR6-WG2-2022
