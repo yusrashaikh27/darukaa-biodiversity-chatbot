@@ -351,7 +351,7 @@
   </div>
   <div class="api-config">
     <span>API base:</span>
-    <input id="api-base" value="http://localhost:8000" spellcheck="false">
+    <input id="api-base" value="" spellcheck="false">
   </div>
 </footer>
 
@@ -362,6 +362,12 @@ const input = document.getElementById('input');
 const sendBtn = document.getElementById('send-btn');
 const apiBaseInput = document.getElementById('api-base');
 const sessionBadge = document.getElementById('session-badge');
+
+// Default the API base to wherever this page is actually being served
+// from (works automatically both on localhost during dev and on the
+// deployed Cloud Run URL) — still editable if someone wants to point
+// the frontend at a different backend.
+apiBaseInput.value = window.location.origin;
 
 const sessionId = 'web-' + Math.random().toString(36).slice(2, 10);
 sessionBadge.textContent = 'session: ' + sessionId;
